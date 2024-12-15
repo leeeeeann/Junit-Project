@@ -723,7 +723,7 @@ input[type=button]{
     transition: .3s;
     
  
-    
+}
 
 
 
@@ -835,4 +835,5 @@ input[type=button]{
     html{
         font-size: 50%;
     }  
+}
 }
