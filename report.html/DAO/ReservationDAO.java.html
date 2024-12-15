@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ReservationDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;lechylicious&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">DAO</a> &gt; <span class="el_source">ReservationDAO.java</span></div><h1>ReservationDAO.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package DAO;
+
+import pojo.Reservation;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import pojo.NailartUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+/**
+ *
+ * @author Aspire7
+ */
+<span class="fc" id="L22">public class ReservationDAO {</span>
+
+    public List&lt;Reservation&gt; retrieveTblReservation() {
+<span class="fc" id="L25">        List listReservation = new ArrayList();</span>
+<span class="fc" id="L26">        Transaction transaction = null;</span>
+<span class="fc" id="L27">        Session session = NailartUtil.getSessionFactory().openSession();</span>
+        try {
+<span class="fc" id="L29">            transaction = session.beginTransaction();</span>
+<span class="fc" id="L30">            Query query = session.createQuery(&quot;from Reservation&quot;);</span>
+<span class="fc" id="L31">            listReservation = query.list();</span>
+<span class="fc" id="L32">            transaction.commit();</span>
+<span class="fc" id="L33">        } catch (Exception e) {</span>
+<span class="fc" id="L34">            System.out.println(e);</span>
+<span class="fc" id="L35">        }</span>
+<span class="fc" id="L36">        return listReservation;</span>
+    }
+
+    public List&lt;Reservation&gt; getbyID(int idReservation) {
+<span class="fc" id="L40">    List&lt;Reservation&gt; listReservation = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L41">    Transaction transaction = null;</span>
+<span class="fc" id="L42">    Session session = NailartUtil.getSessionFactory().openSession();</span>
+    
+    try {
+<span class="fc" id="L45">        transaction = session.beginTransaction();</span>
+<span class="fc" id="L46">        Query query = session.createQuery(&quot;from Reservation where id = :id&quot;);</span>
+<span class="fc" id="L47">        query.setParameter(&quot;id&quot;, idReservation);</span>
+<span class="fc" id="L48">        Reservation reservation = (Reservation) query.uniqueResult();</span>
+        
+        // Tambahkan reservasi yang ditemukan ke dalam daftar
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        if (reservation != null) {</span>
+<span class="fc" id="L52">            listReservation.add(reservation);</span>
+        }
+
+<span class="fc" id="L55">        transaction.commit();</span>
+<span class="fc" id="L56">    } catch (Exception e) {</span>
+<span class="fc" id="L57">        System.out.println(e);</span>
+<span class="fc" id="L58">    }</span>
+<span class="fc" id="L59">    return listReservation;</span>
+}
+ 
+    
+    public List&lt;Reservation&gt; ShowByID(int id) {
+<span class="fc" id="L64">        List&lt;Reservation&gt; usersList = new ArrayList&lt;Reservation&gt;();</span>
+<span class="fc" id="L65">        Transaction transaction = null;</span>
+<span class="fc" id="L66">        Session session = NailartUtil.getSessionFactory().openSession();</span>
+        try {
+<span class="fc" id="L68">            transaction = session.beginTransaction();</span>
+<span class="fc" id="L69">            Query query = session.createQuery(&quot;from Reservation where id=:id&quot;);</span>
+<span class="fc" id="L70">            query.setInteger(&quot;id&quot;, id);</span>
+<span class="fc" id="L71">            usersList = query.list();</span>
+<span class="fc" id="L72">            transaction.commit();</span>
+<span class="fc" id="L73">        } catch (Exception e) {</span>
+<span class="fc" id="L74">            System.out.println(e.getMessage());</span>
+<span class="fc" id="L75">        }</span>
+<span class="fc" id="L76">        return usersList;</span>
+    }
+
+
+    public void addReservation(Reservation reservation) {
+<span class="fc" id="L81">        Transaction transaction = null;</span>
+<span class="fc" id="L82">        Session session = NailartUtil.getSessionFactory().openSession();</span>
+        try {
+<span class="fc" id="L84">            transaction = session.beginTransaction();</span>
+<span class="fc" id="L85">            session.save(reservation);</span>
+<span class="fc" id="L86">            transaction.commit();</span>
+<span class="fc" id="L87">        } catch (Exception e) {</span>
+<span class="fc" id="L88">            System.out.println(e);</span>
+<span class="fc" id="L89">        }</span>
+<span class="fc" id="L90">    }</span>
+
+    public void editUser(Reservation reservation) {
+<span class="fc" id="L93">        Transaction transaction = null;</span>
+<span class="fc" id="L94">        Session session = NailartUtil.getSessionFactory().openSession();</span>
+        try {
+<span class="fc" id="L96">            transaction = session.beginTransaction();</span>
+<span class="fc" id="L97">            session.update(reservation);</span>
+<span class="fc" id="L98">            transaction.commit();</span>
+<span class="fc" id="L99">        } catch (Exception e) {</span>
+<span class="fc" id="L100">            System.out.println(e);</span>
+<span class="fc" id="L101">        }</span>
+<span class="fc" id="L102">    }</span>
+
+    public void deleteUser(Integer idReservation) {
+<span class="fc" id="L105">        Transaction transaction = null;</span>
+<span class="fc" id="L106">        Session session = NailartUtil.getSessionFactory().openSession();</span>
+        try {
+<span class="fc" id="L108">            transaction = session.beginTransaction();</span>
+<span class="fc" id="L109">            Reservation reservation = (Reservation) session.load(Reservation.class, new Integer(idReservation));</span>
+<span class="fc" id="L110">            session.delete(reservation);</span>
+<span class="fc" id="L111">            transaction.commit();</span>
+<span class="fc" id="L112">        } catch (Exception e) {</span>
+<span class="fc" id="L113">            System.out.println(e);</span>
+<span class="fc" id="L114">        }</span>
+<span class="fc" id="L115">    }</span>
+    
+       
+      
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Schedule.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;lechylicious&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">pojo</a> &gt; <span class="el_source">Schedule.java</span></div><h1>Schedule.java</h1><pre class="source lang-java linenums">package pojo;
+
+import DAO.ScheduleDAO;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.event.AjaxBehaviorEvent;
+
+@ManagedBean
+@ViewScoped
+public class Schedule implements java.io.Serializable {
+
+    private Integer id;
+    private String time;
+    private String services;
+    private String searchCriteria;  // For the search filter
+    private List&lt;Schedule&gt; scheduleList;
+<span class="fc" id="L19">    private ScheduleDAO scheduleDAO = new ScheduleDAO();</span>
+
+<span class="fc" id="L21">    public Schedule() {</span>
+<span class="fc" id="L22">        this.scheduleDAO = new ScheduleDAO(); // or any other initialization</span>
+<span class="fc" id="L23">    }</span>
+    
+<span class="fc" id="L25">    public Schedule(ScheduleDAO ScheduleDAO) {</span>
+<span class="fc" id="L26">        this.scheduleDAO = ScheduleDAO;</span>
+<span class="fc" id="L27">    }</span>
+    
+    public void setScheduleDAO(ScheduleDAO ScheduleDAO) {
+<span class="fc" id="L30">        this.scheduleDAO = ScheduleDAO;</span>
+<span class="fc" id="L31">    }</span>
+    
+<span class="fc" id="L33">    public Schedule(Integer id, String time, String services) {</span>
+<span class="fc" id="L34">        this.id = id;</span>
+<span class="fc" id="L35">        this.time = time;</span>
+<span class="fc" id="L36">        this.services = services;</span>
+<span class="fc" id="L37">    }</span>
+    
+    @PostConstruct
+    public void init() {
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        if (id != null) {</span>
+<span class="fc" id="L42">            List&lt;Schedule&gt; scheduleData = scheduleDAO.getByID(id);</span>
+<span class="pc bpc" id="L43" title="2 of 4 branches missed.">            if (scheduleData != null &amp;&amp; !scheduleData.isEmpty()) {</span>
+<span class="fc" id="L44">                Schedule sched = scheduleData.get(0);</span>
+<span class="fc" id="L45">                this.time = sched.getTime();        // Set waktu dari data database</span>
+<span class="fc" id="L46">                this.services = sched.getServices(); // Set layanan dari data database</span>
+            }
+        }
+<span class="fc" id="L49">    }</span>
+
+    // Getters and Setters
+    public Integer getId() { 
+<span class="fc" id="L53">        return this.id; </span>
+    }
+    
+    public void setId(Integer id) { 
+<span class="fc" id="L57">        this.id = id; </span>
+<span class="fc" id="L58">    }</span>
+    
+    public String getTime() { 
+<span class="fc" id="L61">        return this.time; </span>
+    }
+    
+    public void setTime(String time) {
+<span class="fc" id="L65">        this.time = time; </span>
+<span class="fc" id="L66">    }</span>
+    
+    public String getServices() { 
+<span class="fc" id="L69">        return this.services; </span>
+    }
+    
+    public void setServices(String services) {
+<span class="fc" id="L73">        this.services = services; </span>
+<span class="fc" id="L74">    }</span>
+    
+
+<span class="fc" id="L77">    public String getSearchCriteria() { return searchCriteria; }</span>
+<span class="fc" id="L78">    public void setSearchCriteria(String searchCriteria) { this.searchCriteria = searchCriteria; }</span>
+
+    public List&lt;Schedule&gt; getScheduleList() {
+<span class="pc bpc" id="L81" title="1 of 6 branches missed.">        if (scheduleList == null || searchCriteria == null || searchCriteria.isEmpty()) {</span>
+<span class="fc" id="L82">            scheduleList = scheduleDAO.retrieveTblSchedules();</span>
+        }
+<span class="fc" id="L84">        return scheduleList;</span>
+    }
+    
+    public void setScheduleList(List&lt;Schedule&gt; scheduleList) {
+<span class="fc" id="L88">        this.scheduleList = scheduleList;</span>
+<span class="fc" id="L89">    }</span>
+
+    public void filterSchedules(AjaxBehaviorEvent event) {
+<span class="pc bpc" id="L92" title="1 of 4 branches missed.">        if (searchCriteria != null &amp;&amp; !searchCriteria.isEmpty()) {</span>
+<span class="fc" id="L93">            scheduleList = scheduleDAO.searchSchedule(searchCriteria, null, null);</span>
+        } else {
+<span class="fc" id="L95">            scheduleList = scheduleDAO.retrieveTblSchedules();</span>
+        }
+<span class="fc" id="L97">    }</span>
+
+    public String saveSchedule() {
+<span class="fc" id="L100">        scheduleDAO.addSchedule(this);</span>
+<span class="fc" id="L101">        return &quot;scheduledetail&quot;;</span>
+    }
+
+    public String editSchedule() {
+<span class="fc" id="L105">        Schedule schedule = new Schedule(); // Create new schedule object</span>
+<span class="fc" id="L106">        schedule.setId(this.id);            // Set the ID from the current bean</span>
+<span class="fc" id="L107">        schedule.setTime(this.time);        // Set time from the form</span>
+<span class="fc" id="L108">        schedule.setServices(this.services);// Set services from the form</span>
+
+<span class="fc" id="L110">        scheduleDAO.editSchedule(schedule); // Call DAO to save changes</span>
+<span class="fc" id="L111">        return &quot;scheduledetail.xhtml?faces-redirect=true&quot;; // Redirect to detail page after saving</span>
+    }
+
+    // Method untuk menghapus jadwal
+    public String deleteSchedule() {
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">    if (this.id != null) {</span>
+<span class="fc" id="L117">        ScheduleDAO scheduleDAO = new ScheduleDAO();</span>
+<span class="fc" id="L118">        scheduleDAO.deleteSchedule(this.id); // Call DAO to delete schedule by ID</span>
+    }
+<span class="fc" id="L120">    return null; // Stay on the same page after deletion</span>
+}
+
+
+    public String getById(int scheduleId) {
+<span class="fc" id="L125">        List&lt;Schedule&gt; scheduleData = scheduleDAO.getByID(scheduleId);</span>
+<span class="pc bpc" id="L126" title="1 of 4 branches missed.">        if (scheduleData != null &amp;&amp; !scheduleData.isEmpty()) {</span>
+<span class="fc" id="L127">            this.id = scheduleData.get(0).getId();</span>
+<span class="fc" id="L128">            this.time = scheduleData.get(0).getTime();</span>
+<span class="fc" id="L129">            this.services = scheduleData.get(0).getServices();</span>
+<span class="fc" id="L130">            return &quot;scheduleedit&quot;;</span>
+        }
+<span class="fc" id="L132">        System.out.println(&quot;Location not found for ID: &quot; + scheduleId);</span>
+<span class="fc" id="L133">        return &quot;index&quot;;</span>
+    }
+    
+    public void loadSchedule() {
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">        if (id != null) {</span>
+<span class="fc" id="L138">            List&lt;Schedule&gt; scheduleList = scheduleDAO.getByID(id);</span>
+<span class="pc bpc" id="L139" title="2 of 4 branches missed.">            if (scheduleList != null &amp;&amp; !scheduleList.isEmpty()) {</span>
+<span class="fc" id="L140">                Schedule sched = scheduleList.get(0);</span>
+<span class="fc" id="L141">                this.time = sched.getTime(); // Load time from DB</span>
+<span class="fc" id="L142">                this.services = sched.getServices(); // Load services from DB</span>
+            }
+        }
+<span class="fc" id="L145">    }</span>
+
+    public List&lt;Schedule&gt; searchSchedule() {
+<span class="fc" id="L148">        return scheduleDAO.searchSchedule(null, time, services);</span>
+}
+
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CategoryDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;lechylicious&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">DAO</a> &gt; <span class="el_source">CategoryDAO.java</span></div><h1>CategoryDAO.java</h1><pre class="source lang-java linenums">package DAO;
+
+import pojo.NailartUtil;
+import pojo.Category;
+import java.util.ArrayList;
+import java.util.List;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+<span class="fc" id="L11">public class CategoryDAO {</span>
+
+    // Method to retrieve all Category records
+    public List&lt;Category&gt; retrieveTblCategories() {
+<span class="fc" id="L15">        List&lt;Category&gt; categoryList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L16">        Session session = null;</span>
+        try {
+<span class="fc" id="L18">            session = NailartUtil.getSessionFactory().openSession();</span>
+<span class="fc" id="L19">            Query query = session.createQuery(&quot;from Category&quot;);</span>
+<span class="fc" id="L20">            categoryList = query.list();</span>
+<span class="fc" id="L21">        } catch (Exception e) {</span>
+<span class="fc" id="L22">            e.printStackTrace();</span>
+<span class="fc" id="L23">        }</span>
+<span class="fc" id="L24">        return categoryList;</span>
+    }
+    
+     // Get Schedule by ID
+    public List&lt;Category&gt; getByID(int id) {
+<span class="fc" id="L29">        List&lt;Category&gt; categoryList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L30">        Session session = null;</span>
+        try {
+<span class="fc" id="L32">            session = NailartUtil.getSessionFactory().openSession(); // Membuka session</span>
+<span class="fc" id="L33">            Query query = session.createQuery(&quot;from Category WHERE category_id = :id&quot;); // Query untuk mengambil data berdasarkan ID</span>
+<span class="fc" id="L34">            query.setParameter(&quot;id&quot;, id);; // Set parameter ID</span>
+<span class="fc" id="L35">            categoryList = query.list(); // Ambil hasil query</span>
+<span class="fc" id="L36">        } catch (Exception e) {</span>
+<span class="fc" id="L37">            e.printStackTrace();</span>
+<span class="fc" id="L38">        } </span>
+<span class="fc" id="L39">        return categoryList;</span>
+    }
+    
+    public List&lt;Category&gt; showById(int id) {
+<span class="fc" id="L43">        List&lt;Category&gt; categoryList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L44">        Transaction transaction = null;</span>
+<span class="fc" id="L45">        Session session = NailartUtil.getSessionFactory().openSession();</span>
+        try {
+<span class="fc" id="L47">            transaction = session.beginTransaction();</span>
+<span class="fc" id="L48">            Query query = session.createQuery(&quot;from Category where categoryId=:categoryId&quot;);</span>
+<span class="fc" id="L49">            query.setInteger(&quot;categoryId&quot;, id);</span>
+<span class="fc" id="L50">            categoryList = query.list();</span>
+<span class="fc" id="L51">            transaction.commit();</span>
+<span class="fc" id="L52">        } catch (Exception e) {</span>
+<span class="fc" id="L53">            System.out.println(e.getMessage());</span>
+<span class="fc" id="L54">        }</span>
+<span class="fc" id="L55">        return categoryList;</span>
+    }
+    
+    
+    // Search Categories (by categoryId, categoryName, or description)
+    public List&lt;Category&gt; searchCategory(String categoryId, String categoryName, String description, String poster) {
+<span class="fc" id="L61">        List&lt;Category&gt; categoryList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L62">        Session session = null;</span>
+        try {
+<span class="fc" id="L64">            session = NailartUtil.getSessionFactory().openSession();</span>
+<span class="fc" id="L65">            String queryString = &quot;from Category where 1=1&quot;;</span>
+<span class="pc bpc" id="L66" title="1 of 4 branches missed.">            if (categoryId != null &amp;&amp; !categoryId.isEmpty()) queryString += &quot; and categoryId = :categoryId&quot;;</span>
+<span class="pc bpc" id="L67" title="1 of 4 branches missed.">            if (categoryName != null &amp;&amp; !categoryName.isEmpty()) queryString += &quot; and categoryName = :categoryName&quot;;</span>
+<span class="pc bpc" id="L68" title="1 of 4 branches missed.">            if (description != null &amp;&amp; !description.isEmpty()) queryString += &quot; and description = :description&quot;;</span>
+<span class="pc bpc" id="L69" title="1 of 4 branches missed.">            if (poster != null &amp;&amp; !poster.isEmpty()) queryString += &quot; and poster = :poster&quot;;</span>
+
+<span class="fc" id="L71">            Query query = session.createQuery(queryString);</span>
+<span class="pc bpc" id="L72" title="1 of 4 branches missed.">            if (categoryId != null &amp;&amp; !categoryId.isEmpty()) query.setParameter(&quot;categoryId&quot;, Integer.parseInt(categoryId));</span>
+<span class="pc bpc" id="L73" title="1 of 4 branches missed.">            if (categoryName != null &amp;&amp; !categoryName.isEmpty()) query.setParameter(&quot;categoryName&quot;, categoryName);</span>
+<span class="pc bpc" id="L74" title="1 of 4 branches missed.">            if (description != null &amp;&amp; !description.isEmpty()) query.setParameter(&quot;description&quot;, description);</span>
+<span class="pc bpc" id="L75" title="1 of 4 branches missed.">            if (poster != null &amp;&amp; !poster.isEmpty()) query.setParameter(&quot;poster&quot;, poster);</span>
+<span class="fc" id="L76">            categoryList = query.list();</span>
+<span class="fc" id="L77">        } catch (Exception e) {</span>
+<span class="fc" id="L78">            e.printStackTrace();</span>
+<span class="fc" id="L79">        }</span>
+<span class="fc" id="L80">        return categoryList;</span>
+    }
+    
+    public void addCategory(Category category) {
+<span class="fc" id="L84">    Transaction transaction = null;</span>
+<span class="fc" id="L85">    Session session = NailartUtil.getSessionFactory().openSession();</span>
+    try {
+<span class="fc" id="L87">        transaction = session.beginTransaction();</span>
+<span class="fc" id="L88">        session.save(category);</span>
+<span class="fc" id="L89">        transaction.commit();</span>
+<span class="fc" id="L90">    } catch (Exception e) {</span>
+<span class="fc" id="L91">            System.out.println(e);</span>
+<span class="fc" id="L92">    }</span>
+<span class="fc" id="L93">}</span>
+
+    // Edit Schedule
+    public void editCategory(Category category) {
+<span class="fc" id="L97">    Transaction transaction = null;</span>
+<span class="fc" id="L98">    Session session = NailartUtil.getSessionFactory().openSession();</span>
+    try {
+<span class="fc" id="L100">            transaction = session.beginTransaction();</span>
+<span class="fc" id="L101">            session.update(category);</span>
+<span class="fc" id="L102">            transaction.commit();</span>
+<span class="fc" id="L103">        } catch (Exception e) {</span>
+<span class="fc" id="L104">            System.out.println(e);</span>
+<span class="fc" id="L105">        }</span>
+<span class="fc" id="L106">    }</span>
+    
+        // Delete Schedule
+    public void deleteCategory(Integer categoryId) {
+<span class="fc" id="L110">        Transaction transaction = null;</span>
+<span class="fc" id="L111">        Session session = NailartUtil.getSessionFactory().openSession();</span>
+        try {
+<span class="fc" id="L113">            transaction = session.beginTransaction();</span>
+<span class="fc" id="L114">            Category category = (Category) session.load(Category.class, categoryId);</span>
+<span class="fc" id="L115">            session.delete(category);</span>
+<span class="fc" id="L116">            transaction.commit();</span>
+<span class="fc" id="L117">    } catch (Exception e) {</span>
+<span class="fc" id="L118">            System.out.println(e);</span>
+<span class="fc" id="L119">        }</span>
+<span class="fc" id="L120">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

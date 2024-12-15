@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>NailartUtil.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;lechylicious&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">pojo</a> &gt; <span class="el_source">NailartUtil.java</span></div><h1>NailartUtil.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pojo;
+
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+/**
+ *
+ * @author Aspire 7
+ */
+public class NailartUtil {
+    private static SessionFactory sessionFactory;
+
+    static {
+<span class="fc" id="L21">        configureSessionFactory(null);  // Gunakan file default jika tidak ada input</span>
+<span class="fc" id="L22">    }</span>
+
+    // Constructor tambahan untuk keperluan testing
+<span class="fc" id="L25">    public NailartUtil(String configFile) {</span>
+<span class="fc" id="L26">        NailartUtil.configureSessionFactory(configFile); // Memanggil metode statis</span>
+<span class="fc" id="L27">    }</span>
+
+    private static void configureSessionFactory(String configFile) {
+        try {
+<span class="fc" id="L31">            Configuration configuration = new Configuration();</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">            if (configFile != null) {</span>
+<span class="fc" id="L33">                System.out.println(&quot;Menggunakan file konfigurasi khusus: &quot; + configFile);</span>
+<span class="fc" id="L34">                configuration.configure(configFile); // Gunakan file konfigurasi yang diberikan</span>
+            } else {
+<span class="fc" id="L36">                System.out.println(&quot;Menggunakan konfigurasi default&quot;);</span>
+<span class="fc" id="L37">                configuration.configure();  // Gunakan konfigurasi default</span>
+            }
+<span class="fc" id="L39">            sessionFactory = configuration.buildSessionFactory();</span>
+<span class="fc" id="L40">        } catch (Throwable ex) {</span>
+<span class="fc" id="L41">            System.err.println(&quot;Initial SessionFactory creation failed: &quot; + ex.getMessage());</span>
+<span class="fc" id="L42">            ex.printStackTrace(); // Tambahkan stack trace untuk debugging</span>
+<span class="fc" id="L43">            throw new ExceptionInInitializerError(ex);</span>
+<span class="fc" id="L44">        }</span>
+<span class="fc" id="L45">    }</span>
+
+    public static SessionFactory getSessionFactory() {
+<span class="fc" id="L48">        return sessionFactory;</span>
+    }
+    
+    public static void setSessionFactory(SessionFactory sessionFactory) {
+<span class="fc" id="L52">    NailartUtil.sessionFactory = sessionFactory;</span>
+<span class="fc" id="L53">}</span>
+
+    public static HttpSession getSession() {
+<span class="nc" id="L56">    return (HttpSession)FacesContext.getCurrentInstance()</span>
+<span class="nc" id="L57">            .getExternalContext().getSession(false);</span>
+}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

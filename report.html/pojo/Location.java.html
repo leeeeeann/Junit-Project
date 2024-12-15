@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Location.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;lechylicious&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">pojo</a> &gt; <span class="el_source">Location.java</span></div><h1>Location.java</h1><pre class="source lang-java linenums">package pojo;
+
+import DAO.locationDAO;  // Updated to use locationDAO
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.event.AjaxBehaviorEvent;
+
+@ManagedBean
+@ViewScoped
+public class Location implements java.io.Serializable {
+
+    private Integer id;
+    private String city;
+    private String branchLocation;
+    private String searchCriteria;  // For the search filter
+    private List&lt;Location&gt; locationList;
+<span class="fc" id="L19">    private locationDAO locationDAO = new locationDAO();  // Uses locationDAO with lowercase</span>
+
+<span class="fc" id="L21">    public Location() {</span>
+<span class="fc" id="L22">        this.locationDAO = new locationDAO(); // or any other initialization</span>
+<span class="fc" id="L23">    }</span>
+    
+<span class="fc" id="L25">    public Location(locationDAO locationDAO) {</span>
+<span class="fc" id="L26">        this.locationDAO = locationDAO;</span>
+<span class="fc" id="L27">    }</span>
+
+    public void setLocationDAO(locationDAO locationDAO) {
+<span class="fc" id="L30">        this.locationDAO = locationDAO;</span>
+<span class="fc" id="L31">    }</span>
+
+<span class="fc" id="L33">    public Location(Integer id, String city, String branchLocation) {</span>
+<span class="fc" id="L34">        this.id = id;</span>
+<span class="fc" id="L35">        this.city = city;</span>
+<span class="fc" id="L36">        this.branchLocation = branchLocation;</span>
+<span class="fc" id="L37">    }</span>
+    
+    @PostConstruct
+    public void init() {
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        if (id != null) {</span>
+<span class="fc" id="L42">            List&lt;Location&gt; LocationData = locationDAO.getById(id);</span>
+<span class="pc bpc" id="L43" title="2 of 4 branches missed.">            if (LocationData != null &amp;&amp; !LocationData.isEmpty()) {</span>
+<span class="fc" id="L44">                Location loc = LocationData.get(0);</span>
+<span class="fc" id="L45">                this.city = loc.getCity();        // Set waktu dari data database</span>
+<span class="fc" id="L46">                this.branchLocation = loc.getBranchLocation(); // Set layanan dari data database</span>
+            }
+        }
+<span class="fc" id="L49">    }</span>
+    
+    // Getters and Setters
+    public Integer getId() {
+<span class="fc" id="L53">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="fc" id="L57">        this.id = id;</span>
+<span class="fc" id="L58">    }</span>
+
+    public String getCity() {
+<span class="fc" id="L61">        return city;</span>
+    }
+
+    public void setCity(String city) {
+<span class="fc" id="L65">        this.city = city;</span>
+<span class="fc" id="L66">    }</span>
+
+    public String getBranchLocation() {
+<span class="fc" id="L69">        return branchLocation;</span>
+    }
+
+    public void setBranchLocation(String branchLocation) {
+<span class="fc" id="L73">        this.branchLocation = branchLocation;</span>
+<span class="fc" id="L74">    }</span>
+    
+<span class="fc" id="L76">    public String getSearchCriteria() { return searchCriteria; }</span>
+<span class="fc" id="L77">    public void setSearchCriteria(String searchCriteria) { this.searchCriteria = searchCriteria; }</span>
+
+    
+    // Method to retrieve all locations
+    public List&lt;Location&gt; getLocationList() {
+<span class="pc bpc" id="L82" title="1 of 6 branches missed.">        if (locationList == null || searchCriteria == null || searchCriteria.isEmpty()) {</span>
+<span class="fc" id="L83">            locationList = locationDAO.retrieveTblLocations();</span>
+        }
+<span class="fc" id="L85">        return locationList;</span>
+    }
+    
+    public void setLocationList(List&lt;Location&gt; locationList) {
+<span class="fc" id="L89">        this.locationList = locationList;</span>
+<span class="fc" id="L90">    }</span>
+
+    public void filterLocation(AjaxBehaviorEvent event) {
+<span class="pc bpc" id="L93" title="1 of 4 branches missed.">        if (searchCriteria != null &amp;&amp; !searchCriteria.isEmpty()) {</span>
+<span class="fc" id="L94">            locationList = locationDAO.searchLocation(searchCriteria, null, null);</span>
+        } else {
+<span class="fc" id="L96">            locationList = locationDAO.retrieveTblLocations();</span>
+        }
+<span class="fc" id="L98">    }</span>
+    // Method to save a new location
+    public String saveLocation() {
+<span class="fc" id="L101">        locationDAO.addLocation(this);</span>
+<span class="fc" id="L102">        return &quot;adminlocation&quot;; // Navigate back to location admin page</span>
+    }
+    
+    
+    // Method to edit location
+    public String editLocation() {
+<span class="fc" id="L108">        Location location = new Location();</span>
+<span class="fc" id="L109">        location.setId(this.id);</span>
+<span class="fc" id="L110">        location.setCity(this.city);</span>
+<span class="fc" id="L111">        location.setBranchLocation(this.branchLocation);</span>
+<span class="fc" id="L112">        locationDAO.editLocation(this);</span>
+<span class="fc" id="L113">        return &quot;adminlocation.xhtml?faces-redirect=true&quot;; // Navigate back to location admin page</span>
+    }
+    
+    
+    // Method to delete location
+    public String deleteLocation() {
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">    if (this.id != null) {</span>
+<span class="fc" id="L120">        locationDAO locationDAO = new locationDAO();</span>
+<span class="fc" id="L121">        locationDAO.deleteLocation(this.id);</span>
+    }   
+<span class="fc" id="L123">        return &quot;adminlocation&quot;; // Navigate back to location admin page</span>
+    }
+    
+    
+    // Method to get location by ID
+    
+    public String getById(int locationId) {
+<span class="fc" id="L130">        List&lt;Location&gt; locationData = locationDAO.getById(locationId);</span>
+<span class="pc bpc" id="L131" title="1 of 4 branches missed.">        if (locationData != null &amp;&amp; !locationData.isEmpty()) {</span>
+<span class="fc" id="L132">            this.id = locationData.get(0).getId();</span>
+<span class="fc" id="L133">            this.city = locationData.get(0).getCity();</span>
+<span class="fc" id="L134">            this.branchLocation = locationData.get(0).getBranchLocation();</span>
+<span class="fc" id="L135">            return &quot;adminlocation&quot;; // Should return a string</span>
+        }
+<span class="fc" id="L137">        System.out.println(&quot;Location not found for ID: &quot; + locationId);</span>
+<span class="fc" id="L138">        return &quot;index&quot;; // Should return a string</span>
+    }
+    
+public void loadLocation() {
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">        if (id != null) {</span>
+<span class="fc" id="L143">            List&lt;Location&gt; locationList = locationDAO.getById(id);</span>
+<span class="pc bpc" id="L144" title="1 of 4 branches missed.">            if (locationList != null &amp;&amp; !locationList.isEmpty()) {</span>
+<span class="fc" id="L145">                Location loc = locationList.get(0);</span>
+<span class="fc" id="L146">                this.city = loc.getCity(); // Load time from DB</span>
+<span class="fc" id="L147">                this.branchLocation = loc.getBranchLocation(); // Load services from DB</span>
+            }
+        }
+<span class="fc" id="L150">    }</span>
+
+public List&lt;Location&gt; searchLocations() {
+<span class="fc" id="L153">        return locationDAO.searchLocation(null, city, branchLocation);</span>
+}
+
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

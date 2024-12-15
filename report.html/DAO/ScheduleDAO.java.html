@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ScheduleDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;lechylicious&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">DAO</a> &gt; <span class="el_source">ScheduleDAO.java</span></div><h1>ScheduleDAO.java</h1><pre class="source lang-java linenums">package DAO;
+
+import pojo.Schedule;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import pojo.NailartUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+
+<span class="fc" id="L12">public class ScheduleDAO {</span>
+
+public List&lt;Schedule&gt; retrieveTblSchedules() {
+<span class="fc" id="L15">    List&lt;Schedule&gt; scheduleList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L16">    Session session = null;</span>
+    try {
+<span class="fc" id="L18">        session = NailartUtil.getSessionFactory().openSession();</span>
+<span class="fc" id="L19">        Query query = session.createQuery(&quot;from Schedule&quot;);</span>
+<span class="fc" id="L20">        scheduleList = query.list();</span>
+<span class="fc" id="L21">    } catch (Exception e) {</span>
+<span class="fc" id="L22">        e.printStackTrace();</span>
+<span class="fc" id="L23">    }</span>
+<span class="fc" id="L24">    return scheduleList;</span>
+}
+
+
+    // Get Schedule by ID
+    public List&lt;Schedule&gt; getByID(int scheduleId) {
+<span class="fc" id="L30">        List&lt;Schedule&gt; scheduleList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L31">        Session session = null;</span>
+        try {
+<span class="fc" id="L33">            session = NailartUtil.getSessionFactory().openSession(); // Membuka session</span>
+<span class="fc" id="L34">            Query query = session.createQuery(&quot;from Schedule where id = :id&quot;); // Query untuk mengambil data berdasarkan ID</span>
+<span class="fc" id="L35">            query.setParameter(&quot;id&quot;, scheduleId); // Set parameter ID</span>
+<span class="fc" id="L36">            scheduleList = query.list(); // Ambil hasil query</span>
+<span class="fc" id="L37">        } catch (Exception e) {</span>
+<span class="fc" id="L38">            e.printStackTrace();</span>
+<span class="fc" id="L39">        }</span>
+<span class="fc" id="L40">        return scheduleList;</span>
+    }
+
+    // Search Schedule (by ID, time, or services)
+    public List&lt;Schedule&gt; searchSchedule(String id, String time, String services) {
+<span class="fc" id="L45">    List&lt;Schedule&gt; scheduleList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L46">    Session session = null;</span>
+    try {
+<span class="fc" id="L48">        session = NailartUtil.getSessionFactory().openSession();</span>
+<span class="fc" id="L49">        String queryString = &quot;from Schedule where 1=1&quot;;</span>
+<span class="pc bpc" id="L50" title="1 of 4 branches missed.">        if (id != null &amp;&amp; !id.isEmpty()) queryString += &quot; and id = :id&quot;;</span>
+<span class="pc bpc" id="L51" title="1 of 4 branches missed.">        if (time != null &amp;&amp; !time.isEmpty()) queryString += &quot; and time = :time&quot;;</span>
+<span class="pc bpc" id="L52" title="1 of 4 branches missed.">        if (services != null &amp;&amp; !services.isEmpty()) queryString += &quot; and services = :services&quot;;</span>
+        
+<span class="fc" id="L54">        Query query = session.createQuery(queryString.toString());</span>
+<span class="pc bpc" id="L55" title="1 of 4 branches missed.">        if (id != null &amp;&amp; !id.isEmpty()) query.setParameter(&quot;id&quot;, Integer.parseInt(id));</span>
+<span class="pc bpc" id="L56" title="1 of 4 branches missed.">        if (time != null &amp;&amp; !time.isEmpty()) query.setParameter(&quot;time&quot;, time);</span>
+<span class="pc bpc" id="L57" title="1 of 4 branches missed.">        if (services != null &amp;&amp; !services.isEmpty()) query.setParameter(&quot;services&quot;, services);</span>
+        
+<span class="fc" id="L59">        scheduleList = query.list();</span>
+<span class="fc" id="L60">    } catch (Exception e) {</span>
+<span class="fc" id="L61">        e.printStackTrace(); // Tangani semua kesalahan selama query</span>
+<span class="fc" id="L62">    }</span>
+    
+<span class="fc" id="L64">    return scheduleList;</span>
+}
+
+
+    // Add Schedule
+    public void addSchedule(Schedule schedule) {
+<span class="fc" id="L70">    Transaction transaction = null;</span>
+<span class="fc" id="L71">    Session session = NailartUtil.getSessionFactory().openSession();</span>
+    try {
+<span class="fc" id="L73">        transaction = session.beginTransaction();</span>
+<span class="fc" id="L74">        session.save(schedule);</span>
+<span class="fc" id="L75">        transaction.commit();</span>
+<span class="fc" id="L76">    } catch (Exception e) {</span>
+<span class="fc" id="L77">            System.out.println(e);</span>
+<span class="fc" id="L78">    }</span>
+<span class="fc" id="L79">}</span>
+
+
+    public void editSchedule(Schedule schedule) {
+<span class="fc" id="L83">    Transaction transaction = null;</span>
+<span class="fc" id="L84">    Session session = NailartUtil.getSessionFactory().openSession();</span>
+    try {
+<span class="fc" id="L86">            transaction = session.beginTransaction();</span>
+<span class="fc" id="L87">            session.update(schedule);</span>
+<span class="fc" id="L88">            transaction.commit();</span>
+<span class="fc" id="L89">        } catch (Exception e) {</span>
+<span class="fc" id="L90">            System.out.println(e);</span>
+<span class="fc" id="L91">        }</span>
+<span class="fc" id="L92">    }</span>
+
+
+    // Delete Schedule
+    public void deleteSchedule(int scheduleId) {
+<span class="fc" id="L97">        Transaction transaction = null;</span>
+<span class="fc" id="L98">        Session session = NailartUtil.getSessionFactory().openSession();</span>
+        try {
+<span class="fc" id="L100">            transaction = session.beginTransaction();</span>
+<span class="fc" id="L101">            Schedule schedule = (Schedule) session.load(Schedule.class, scheduleId);</span>
+<span class="fc" id="L102">            session.delete(schedule);</span>
+<span class="fc" id="L103">            transaction.commit();</span>
+<span class="fc" id="L104">        } catch (Exception e) {</span>
+<span class="fc" id="L105">            System.out.println(e);</span>
+<span class="fc" id="L106">        }</span>
+<span class="fc" id="L107">    }</span>
+    }
+    
+    
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
