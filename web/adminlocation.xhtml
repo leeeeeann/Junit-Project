@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:p="http://primefaces.org/ui"> 
+    <h:head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Location Admin | LechyLicious</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+            crossorigin="anonymous"/>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f8f9fa;
+                color: #333;
+                margin: 0;
+                padding: 0;
+            }
+
+            .sidenav {
+                height: 100%;
+                width: 250px;
+                position: fixed;
+                z-index: 1;
+                top: 0;
+                left: 0;
+                background-color: #333;
+                padding-top: 20px;
+                color: white;
+            }
+
+            .sidenav a {
+                padding: 10px 15px;
+                text-decoration: none;
+                font-size: 18px;
+                color: #f1f1f1;
+                display: block;
+            }
+
+            .sidenav a:hover {
+                background-color: #575757;
+                color: white;
+            }
+
+            .sidenav img.logo {
+                width: 80%;
+                margin-left: 10%;
+                margin-bottom: 20px;
+            }
+
+            #main {
+                margin-left: 250px;
+                padding: 20px;
+            }
+
+            .head {
+                margin-bottom: 30px;
+            }
+
+            .search {
+                padding: 15px;
+            }
+
+            .button-pink {
+                background-color: #fdeaea;
+                border: none;
+                color: #333;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                border-radius: 5px;
+                transition: background-color 0.3s, transform 0.2s;
+            }
+
+            .button-pink:hover {
+                background-color: #d18686;
+                transform: translateY(-2px);
+            }
+
+            .table-wrapper {
+                margin-top: 30px;
+                border: 1px solid #ddd;
+                padding: 15px;
+                background-color: #fff;
+                border-radius: 8px;
+            }
+
+            .clearfix::after {
+                content: "";
+                clear: both;
+                display: table;
+            } 
+        </style>
+    </h:head>
+    <h:body>
+            <div id="lilithsidenav" class="sidenav">
+                <h:form>
+                    
+                <p><img src="Image/logo.png" alt="" class="logo"></img></p>
+                <h:commandLink action="List.xhtml" value="Dashboard"></h:commandLink>
+                <h:commandLink action="admindetail.xhtml" value="Admin"></h:commandLink>
+                <h:commandLink action="reservation.xhtml" value="Reservation Detail"></h:commandLink>
+                <h:commandLink action="scheduledetail.xhtml" value="Schedule Detail"></h:commandLink>
+                <h:commandLink action="categorydetail.xhtml" value="Category Detail"></h:commandLink>
+                <h:commandLink action="adminlocation.xhtml" value="Location Detail"></h:commandLink>
+                <h:commandLink action="#{login.logout}" value="Log Out"></h:commandLink>
+                                </h:form>
+
+            </div>
+            <div id="main">
+            <div class="head">
+                <div class="col-div-6">
+                    <h:outputText value="&#9776; Locations Details" style="font-size: 30px; cursor: pointer; color: rgb(229, 168, 162);" />
+                </div>
+                <div class="search">
+                    <h:form id="LocationForm">
+    <!-- Input field for searching schedule by ID -->
+    <p:inputText id="locationSearch" value="#{location.searchCriteria}" placeholder="Search by ID">
+        <!-- Ajax event for keyup to trigger filtering and update the table -->
+        <p:ajax event="keyup" update="locationTable" listener="#{location.filterLocation}" />
+    </p:inputText>
+
+    <!-- Table for displaying the filtered schedule list -->
+    <p:dataTable id="locationTable" value="#{location.locationList}" var="loc">
+    <p:column headerText="Location ID">
+        <h:outputText value="#{loc.id}" />
+    </p:column>
+
+    <p:column headerText="City">
+        <h:outputText value="#{loc.city}" />
+    </p:column>
+
+    <p:column headerText="Branch Location">
+        <h:outputText value="#{loc.branchLocation}" />
+    </p:column>
+
+    <p:column>
+        <!-- Edit Button -->
+        <h:commandButton value="Edit" action="locationedit.xhtml?faces-redirect=true&amp;includeViewParams=true">
+            <f:setPropertyActionListener target="#{location.id}" value="#{loc.id}" />
+        </h:commandButton>
+        
+        <!-- Delete Button -->
+        <h:commandButton value="Delete" action="#{location.deleteLocation}">
+            <f:setPropertyActionListener target="#{location.id}" value="#{loc.id}" />
+            <f:ajax execute="@this" render="locationTable" />
+        </h:commandButton>
+    </p:column>
+</p:dataTable>
+
+
+
+</h:form>
+
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <h:form>
+                <h:commandButton value="Create New Location" action="locationcreate.xhtml" />
+            </h:form>
+        </div>
+        </h:body>
+</html>

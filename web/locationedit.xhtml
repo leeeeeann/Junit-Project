@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Admin Location | LechyLicious</title>
+        <link rel="stylesheet" href="css/style1.css" /> 
+        <link rel="stylesheet" href="css/edit.css" /> 
+    </h:head>
+    <h:body>
+        <!-- Header section starts -->
+        <header>
+            <a href="#" class="logo">LechyLicious</a>
+
+            <nav class="navbar">
+                <h:form>
+                </h:form>
+            </nav>
+        </header>
+        
+        <!-- Location Edit Form -->
+        <div class="billing">
+            <div class="container">
+                <div class="title">Location</div>
+                <div class="content">
+                    <f:metadata>
+        <f:viewParam name="id" value="#{location.id}" />
+        <f:event type="preRenderView" listener="#{location.loadLocation}" />
+    </f:metadata>
+
+    <h:form id="editForm">
+        <!-- Display fields for editing -->
+        <div>
+            <label for="time">City</label>
+            <h:inputText id="time" value="#{location.city}" required="true" requiredMessage="City cannot be empty" />
+        </div>
+        <div>
+            <label for="services">Branch Location</label>
+            <h:inputText id="services" value="#{location.branchLocation}" required="true" requiredMessage="branch Location cannot be empty" />
+        </div>
+
+        <h:commandButton value="Save" action="#{location.editLocation}" />
+    </h:form>
+
+                </div> <!-- Closing content div -->
+            </div> <!-- Closing container div -->
+        </div> <!-- Closing billing div -->
+        
+        <!-- Footer section starts -->
+        <footer>
+            <div class="contact-us">
+                <p> LechyLicious</p>
+                <p>We're here to bring your nail art dreams to life! Whether you have questions about our services, want to book an appointment, or simply need more information, we'd love to hear from you.</p>
+                <div class="social">
+                    <h:outputLink value="https://www.linkedin.com" target="_blank">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </h:outputLink>
+                    <h:outputLink value="https://www.instagram.com" target="_blank">
+                        <i class="fa-brands fa-instagram"></i>
+                    </h:outputLink>
+                    <h:outputLink value="https://twitter.com" target="_blank">
+                        <i class="fa-brands fa-twitter"></i>
+                    </h:outputLink>
+                </div>
+            </div>
+            <div class="footer-bawah">
+                <div class="footer-bawah-kiri">
+                    © 2024 Lechylicious All Rights Reserved
+                </div>
+            </div>
+        </footer>
+        <!-- Footer section ends -->
+    </h:body>
+</html>

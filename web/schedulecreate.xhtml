@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title> Create Schedule | LechyLicious</title>
+        <link rel="stylesheet" href="css/style1.css" /> 
+        <link rel="stylesheet" href="css/edit.css" /> 
+    </h:head>
+    <h:body>
+        <!-- Header section starts -->
+        <header>
+            <a href="#" class="logo">LechyLicious</a>
+
+            <nav class="navbar">
+                <h:form>
+                </h:form>
+            </nav>
+        </header>
+         <div class="billing">
+            <div class="container">
+                <div class="title">CREATE NEW SCHEDULE</div>
+                <div class="content">
+                    <h:form id="scheduleForm">
+                        <div class="user-details">
+                            <div class="input-box">
+                                <span class="details">time</span>
+                                <h:inputText id="time" value="#{schedule.time}" p:required="true" requiredMessage="Time cannot be empty"/>
+                                <h:inputHidden id="id" value="#{schedule.id}" />
+                            </div>
+                            <div class="input-box">
+                                <span class="details">Services</span>
+                                <h:inputText id="services" value="#{schedule.services}" p:required="true" requiredMessage="Services cannot be empty"/>
+                            </div>
+                            
+                            <div class="button">
+                                    <h:commandButton value="Create" action="#{schedule.saveSchedule}" onclick="PF('confirmDialog').show()" />
+                                    <p:confirmDialog message="Succesfully" 
+                                                     header="Created" severity="alert" widgetVar="confirmDialog">
+                                    </p:confirmDialog>
+                                </div>
+                        </div>
+                    </h:form>
+                    </div>
+            </div>
+         </div>
+        
+        <!-- Footer section starts -->
+         <footer>
+            <div class="contact-us">
+                <p> LechyLicious</p>
+                <p>we're here to bring your nail art dreams to life! Whether you have questions about our services, want to book an appointment, or simply need more information, we'd love to hear from you.
+                </p>
+                <div class="social">
+                    <h:outputLink value="https://www.linkedin.com" target="_blank">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </h:outputLink>
+                    <h:outputLink value="https://www.instagram.com" target="_blank">
+                        <i class="fa-brands fa-instagram"></i>
+                    </h:outputLink>
+                    <h:outputLink value="https://twitter.com" target="_blank">
+                        <i class="fa-brands fa-twitter"></i>
+                    </h:outputLink>
+                </div>
+            </div>
+            <div class="footer-bawah">
+                <div class="footer-bawah-kiri">
+                    © 2024 Lechylicious All Rights Reserved
+                </div>
+            </div>
+        </footer>
+        
+        <!-- Styling untuk tautan admin di kanan bawah tombol Reserve -->
+        <style>
+            .admin-link {
+                text-align: right;
+                margin-top: 10px;
+            }
+            .admin-link a {
+                color: #C71585;
+                text-decoration: none;
+            }
+            .admin-link a:hover {
+                color: pink; /* Warna pink saat dihover */
+                text-decoration: underline;
+            }
+        </style>
+        <!-- Footer section ends -->
+    </h:body>
+</html>

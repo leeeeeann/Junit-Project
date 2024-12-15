@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Reserved | LechyLicious</title>
+        <link rel="stylesheet" href="css/style1.css" /> 
+        <script src="js/homejs.js"></script>
+    </h:head>
+    <h:body>
+        <!-- Header section starts -->
+        <header>
+            <a href="#" class="logo">LechyLicious</a>
+
+            <nav class="navbar">
+                <h:form>
+                    <h:commandLink action="index.xhtml" value="Home"></h:commandLink>
+                    <h:commandLink action="schedule.xhtml" value="Schedule"></h:commandLink>
+                    <h:commandLink action="location.xhtml" value="Location"></h:commandLink>
+                    <h:commandLink action="reserved.xhtml" value="Reserved"></h:commandLink>
+                </h:form>
+            </nav>
+        </header>
+        <!-- Reservation section starts -->
+        <div class="billing">
+            <div class="container">
+                <div class="title">RESERVATION</div>
+                <div class="content">
+                    <h:form id="reservationForm">
+                        <div class="user-details">
+                            <div class="input-box">
+                                <span class="details">First Name</span>
+                                <h:inputText id="first_name" value="#{reservation.firstName}" p:required="true" requiredMessage="Nama harus diisi"/>
+                                <h:inputHidden id="id" value="#{reservation.id}" />
+                            </div>
+                            <div class="input-box">
+                                <span class="details">Last Name</span>
+                                <h:inputText id="last_name" value="#{reservation.lastName}" p:required="true" requiredMessage="Nama harus diisi"/>
+                            </div>
+                            <div class="input-box">
+                                <span class="details">Phone Number</span>
+                                <h:inputText id="phone" value="#{reservation.phone}" p:required="true" requiredMessage="Nomor tidak valid"/>
+                            </div>
+                            <div class="input-box">
+                                <span class="details">Email Address</span>
+                                <h:inputText id="email" value="#{reservation.email}" p:required="true" requiredMessage="Email tidak valid"/>
+                            </div>
+
+                            <div class="concert-details" >
+                                <span class="concert-details">Class</span>
+                                <br/> <br/>
+
+                                <h:selectOneMenu id="workshop" class="concert" value="#{reservation.workshop}">
+                                    <f:selectItem itemValue="Menicure - [9:00 AM - 10:00 AM]" itemLabel="Menicure - [9:00 AM - 10:00 AM]" class="dot one"/>        
+                                    <f:selectItem itemValue="Nail Art - [10:00 AM - 12:00 AM]" itemLabel="Nail Art - [10:00 AM - 12:00 AM]" class="dot two" />
+                                    <f:selectItem itemValue="Nail Extensions - [1:00 PM - 3:00 PM]" itemLabel="Nail Extensions - [1:00 PM - 3:00 PM]" class="dot three"/> 
+                                    <f:selectItem itemValue="Menicure - [3:00 PM - 4:00 PM]" itemLabel="Menicure - [3:00 PM - 4:00 PM]" class="dot four"/>        
+                                    <f:selectItem itemValue="Nail Art - [4:00 PM - 6:00 PM]" itemLabel="Nail Art - [4:00 PM - 6:00 PM]" class="dot five" />
+                                    <f:selectItem itemValue="Nail Extensions - [6:00 PM - 8:00 PM]" itemLabel="Nail Extensions - [6:00 PM - 8:00 PM]" class="dot six"/>
+                                </h:selectOneMenu>
+                                <div class="button">
+                                    <h:commandButton value="Reserve" action="#{reservation.saveReservation}" onclick="PF('confirmDialog').show()" />
+                                    <p:confirmDialog message="Succesfully" 
+                                                     header="Reserved" severity="alert" widgetVar="confirmDialog">
+                                    </p:confirmDialog>
+                                </div>
+                                
+                                <!-- Tambahan admin link di bawah tombol Reserve -->
+                                <div class="admin-link">
+                                    <span>Are you an admin? Click here as an </span>
+                                    <a href="http://localhost:8080/lechylicious/faces/Login.xhtml" class="admin">admin</a>
+                                </div>
+                            </div>
+                        </div>  
+                    </h:form>
+                </div>
+            </div>
+        </div>
+        <!-- Reservation section ends -->
+
+        <br /><br /><br />
+
+        <!-- Footer section starts -->
+         <footer>
+            <div class="contact-us">
+                <p> LechyLicious</p>
+                <p>we're here to bring your nail art dreams to life! Whether you have questions about our services, want to book an appointment, or simply need more information, we'd love to hear from you.
+                </p>
+                <div class="social">
+                    <h:outputLink value="https://www.linkedin.com" target="_blank">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </h:outputLink>
+                    <h:outputLink value="https://www.instagram.com" target="_blank">
+                        <i class="fa-brands fa-instagram"></i>
+                    </h:outputLink>
+                    <h:outputLink value="https://twitter.com" target="_blank">
+                        <i class="fa-brands fa-twitter"></i>
+                    </h:outputLink>
+                </div>
+            </div>
+            <div class="footer-bawah">
+                <div class="footer-bawah-kiri">
+                    © 2024 Lechylicious All Rights Reserved
+                </div>
+            </div>
+        </footer>
+
+        <!-- Styling untuk tautan admin di kanan bawah tombol Reserve -->
+        <style>
+            .admin-link {
+                text-align: right;
+                margin-top: 10px;
+            }
+            .admin-link a {
+                color: #C71585;
+                text-decoration: none;
+            }
+            .admin-link a:hover {
+                color: pink; /* Warna pink saat dihover */
+                text-decoration: underline;
+            }
+        </style>
+        <!-- Footer section ends -->
+    </h:body>
+</html>

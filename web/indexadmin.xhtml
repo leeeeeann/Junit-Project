@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home | LechyLicious</title>
+    
+    <!-- Link to your custom stylesheet -->
+    <link rel="stylesheet" href="css/style1.css" /> 
+    
+    <!-- Link to Font Awesome for social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    
+    <!-- Your custom JavaScript -->
+    <script src="js/homejs.js"></script>
+</h:head>
+
+    <h:body>
+        <!-- Header section starts -->
+        <header>
+            <a href="#" class="logo">LechyLicious</a>
+
+            <nav class="navbar">
+                <h:form>
+                    <h:commandLink action="index.xhtml" value="Home"></h:commandLink>
+                    <h:commandLink action="schedule.xhtml" value="Schedule"></h:commandLink>
+                    <h:commandLink action="location.xhtml" value="Location"></h:commandLink>
+                    <h:commandLink action="reserved.xhtml" value="Reserved"></h:commandLink>
+                    <h:commandLink action="Login.xhtml" value="Login"></h:commandLink>
+                </h:form>
+            </nav>
+
+        </header>
+        <!-- Header section ends -->
+
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
+        <!-- Slideshow container starts -->
+
+        <div class="Slideshow">
+            <div class="slide">
+                <img src="Image/slide1.png" alt="" height="500"></img>
+            </div>
+            <div class="slide">
+                <img src="Image/slide2.png" alt="" height="500"></img>
+            </div>
+            <div class="slide">
+                <img src="Image/slide3.png" alt="" height="500"></img>
+            </div>
+            <div class="slide">
+                <img src="Image/slide4.png" alt="" height="500"></img>
+            </div>
+            <div class="navigation">
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            </div>
+        </div>
+
+
+        <!-- Slideshow container ends -->
+
+        <br />
+
+        <!-- about us section starts  -->
+        <div class="about" id="about">
+            <div class="pic-content">
+                <img src="Image/about.png" alt=""></img>            
+            </div>
+            <div class="content">
+                <span>LechyLicious</span>
+                <p>Where your nails become a canvas for creativity! We specialize in stunning nail art, relaxing manicures, and luxurious nail extensions, all designed to elevate your style and pamper your senses. Our skilled technicians use the finest products to ensure your nails look fabulous while prioritizing your health and comfort. Step into a world of color, design, and self-expression at LechyLicious—your ultimate destination for nail beauty!</p>
+            </div>
+        </div>
+        <!-- about us section ends -->
+
+        <!-- Our Program section starts -->
+        <section class="OurProgram" id="OurProgram">
+            <div class="heading">
+                <span>Our Services</span>
+            </div>
+            <div class="lightbox">
+                <a href="Image/menicure.png"><img src="Image/menicure.png" alt=""></img></a>
+                <a href="Image/nailart.png"><img src="Image/nailart.png" alt=""></img></a>
+                <a href="Image/nailextension.png"><img src="Image/nailextension.png" alt=""></img></a>
+            </div>
+        </section>
+        <!-- Our Program section ends -->
+
+        <br />
+
+        <!-- Testimonials section starts -->
+    <section class="testimonials">
+    <h2>Frequently Asked Question (FAQ)</h2>
+    <div class="testimonial-container">
+        <div class="testimonial">
+            <img src="Image/faq.png" alt="" height="500"></img>
+            <h3>Does LechyLicious Nail Art Shop use safe products?</h3>
+            <p>Yes, we only use high-quality products that have been tested safe for skin and nails. All the products we use are hypoallergenic and contain no harmful ingredients such as formaldehyde or toluene.</p>
+        </div>
+        <div class="testimonial">
+            <img src="Image/faq.png" alt="" height="500"></img>
+            <h3>How long does nail art usually take?</h3>
+            <p>The processing time depends on the type of service you choose. For a standard manicure/pedicure, it usually takes about 45 minutes to 1 hour. However, for custom nail art or nail extensions, it can take up to 1.5 to 2 hours.</p>
+        </div>
+        <div class="testimonial">
+            <img src="Image/faq.png" alt="" height="500"></img>
+            <h3>Does Lechy Licious accept in-home nail art services?</h3>
+            <p>We do not currently provide nail art services at home. All services are performed in our salon with professional equipment and hygienic conditions.</p>
+            
+        </div>
+    </div>
+    </section>
+
+        <!-- Footer section starts -->
+        <footer>
+            <div class="contact-us">
+                <p> LechyLicious</p>
+                <p>we're here to bring your nail art dreams to life! Whether you have questions about our services, want to book an appointment, or simply need more information, we'd love to hear from you.
+                </p>
+                <div class="social">
+                    <h:outputLink value="https://www.linkedin.com" target="_blank">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </h:outputLink>
+                    <h:outputLink value="https://www.instagram.com" target="_blank">
+                        <i class="fa-brands fa-instagram"></i>
+                    </h:outputLink>
+                    <h:outputLink value="https://twitter.com" target="_blank">
+                        <i class="fa-brands fa-twitter"></i>
+                    </h:outputLink>
+                </div>
+            </div>
+            <div class="footer-bawah">
+                <div class="footer-bawah-kiri">
+                    © 2024 Lechylicious All Rights Reserved
+                </div>
+            </div>
+        </footer>
+        <!-- Footer section ends -->
+    </h:body>
+</html>
+
+
+
